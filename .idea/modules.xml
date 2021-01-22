@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/data-science-hackathon-analytical.iml" filepath="$PROJECT_DIR$/.idea/data-science-hackathon-analytical.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../data-science-hackathon-machine-learning/.idea/data-science-hackathon-machine-learning.iml" filepath="$PROJECT_DIR$/../data-science-hackathon-machine-learning/.idea/data-science-hackathon-machine-learning.iml" />
     </modules>
   </component>
 </project>

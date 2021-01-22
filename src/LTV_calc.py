@@ -18,26 +18,10 @@ class CustomerLifetimeValue:
        # print(self.aggregated)
 
     def compute_lifetime_value(self, param):
-        statTable = self.__count_how_much_users_having_specific_amount_of_subcriptions()
-        print(statTable['subscriptions'])
-
-        # # counting the statistics Table - what amount of users have at least a specific amount(x) of subscriptions
-        # statTable['registration'] = np.cumsum(statTable['registration'])
-        # print(statTable)
-        # statTable = statTable.sort_values('subscriptions')
-        # print(statTable)
-        # # calculating conversion rates
-        # Client_amounts = statTable['registration'] # third column: amount of people who bought exactly x subscriptions(x from 0 to 5)
-        # Conversion_percents = [1.] + list(np.array(Client_amounts[1:]) / np.array(Client_amounts[:-1]))
-        # # conversion in the meaning of what percentage of those who bought x subscriptions also bought the (x+1) one
-        # statTable['conversion'] = Conversion_percents
-        # convs = np.array(statTable['conversion'][1:])
+        self.__count_how_much_users_having_specific_amount_of_subcriptions()
+        print(self.statTable['subscriptions'])
         dev_proceeds = 9.99 * 0.7  # including deduction of subscription cost of 30% by Apple
-        # # calculating LTV using the formula given in the task
-        # values = [dev_proceeds]
-        # for _ in range(len(convs)):
-        #     values.append(values[-1] * convs[_])
-        ltv = statTable['subscriptions']#sum(values[1:])
+        ltv = self.statTable['subscriptions']#sum(values[1:])
         first_client = 0
         print("\nLTV = ", ltv[first_client])
         trial = 1
@@ -49,7 +33,6 @@ class CustomerLifetimeValue:
 
     # As all users in dataset have complete lifetimes, we can count conversions using all records on each step
     def __count_how_much_users_having_specific_amount_of_subcriptions(self):
-        statTable = self.aggregated.groupby('subscriptions').count().reset_index()
-        print(statTable)
-        statTable = statTable.sort_values('subscriptions', ascending=False)
-        return statTable
+        self.statTable = self.aggregated.groupby('subscriptions').count().reset_index()
+        print(self.statTable)
+        self.statTable = self.statTable.sort_values('subscriptions', ascending=False)

@@ -17,6 +17,7 @@ class CustomerLifetimeValue:
             columns={"max": "registration", "count": "subscriptions"})
        # print(self.aggregated)
 
+
     def compute_lifetime_value(self, param):
         self.__count_how_much_users_having_specific_amount_of_subcriptions()
         print(self.statTable['subscriptions'])

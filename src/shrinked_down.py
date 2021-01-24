@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 # importing data
-inp = pd.read_csv("data_analytics.csv")
+inp = pd.read_csv("../kaggle/input/data_analytics.csv")
 inp['Event Date'] = inp['Event Date'].astype('datetime64')
 
 # grouping data by users: finding out amount of their subscriptions and registration dates

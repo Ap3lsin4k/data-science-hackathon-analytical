@@ -17,8 +17,8 @@ class CustomerLifetimeValue:
         grouped = inp.groupby('Subscriber ID')
         #print(grouped)
         # aggregating transcations in a table with columns for ID, number of subscriptions for every customer, and registation date, making it easier to later calculate total amounts
-        self.aggregated = grouped.agg({'Event Date': ['count', 'min']})['Event Date'].rename(
-            columns={"min": "registration", "count": "subscriptions"})
+        self.aggregated = grouped.agg({'Event Date': ['count', 'max']})['Event Date'].rename(
+            columns={"max": "registration", "count": "subscriptions"})
         #print(self.aggregated)
         self.__count_how_much_users_having_specific_amount_of_subcriptions()
 
@@ -28,15 +28,16 @@ class CustomerLifetimeValue:
         # calculating conversion rates
         # 1.0
         Client_amounts = self.statTable['registration'] # third column: amount of people who bought exactly x subscriptions(x from 0 to 5)
+        print(Client_amounts)
         self.Conversion_percents = [1.] + list(np.array(Client_amounts[1:]) / np.array(Client_amounts[:-1]))
         # # conversion in the meaning of what percentage of those who bought x subscriptions also bought the (x+1) one
         # convs = np.array(self.Conversion_percents[1:])
         dev_proceeds = 9.99 * 0.7  # including deduction of subscription cost of 30% by Apple
         # # calculating LTV using the formula given in the task
-        sum = 0
+        paid_weeks = 0
         for i in self.statTable['subscriptions']:
-            sum += (i) -1
-        return sum*dev_proceeds/len(self.statTable)
+            paid_weeks += (i-1)*dev_proceeds
+        return paid_weeks/len(self.statTable)
        # ltv = statTable['subscriptions']  # sum(values[1:])
       #  first_client = 0
       #  print("\nLTV = ", ltv[first_client])

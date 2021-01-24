@@ -15,15 +15,15 @@ def test_number_of_users_is_one():
 
 
 def test_ltv_when_number_of_users_is_two():
-    assert ltv.compute_lifetime_value("../test/model/two_users.csv") == pytest.approx(27.971999999999998, 0.004)
+    assert ltv.compute_lifetime_value("../test/model/two_users.csv") == pytest.approx(9.99*0.7*8/2, 0.004)
 
 
 @pytest.mark.skip("Deprecated")
 def test_conversion_rate():
-    ltv.compute_lifetime_value("../test/model/LTV=USD34.96.csv") == pytest.approx(34.965, 0.004)
+    ltv.compute_lifetime_value("../test/model/LTV=USD34.96.csv")
     assert ltv.Conversion_percents == [1.0]
 
-    ltv.compute_lifetime_value("../test/model/three_users.csv") == pytest.approx(34.965, 0.004)
+    ltv.compute_lifetime_value("../test/model/three_users.csv")
     assert ltv.Conversion_percents == [1.0, pytest.approx(2/3, 0.0001), 0.50]
 
 
@@ -38,8 +38,10 @@ def test_stat_table_one_user():
 
 
 def test_compute_lifetime_value_when_four_users():
-    assert ltv.compute_lifetime_value("../test/model/four_users.csv") == 10*0.7*9.99 / 4
+    assert ltv.compute_lifetime_value("../test/model/four_users_all_trial.csv") == 0
+    assert ltv.compute_lifetime_value("../test/model/four_users_one_subscriber.csv") == 9.99*0.7 * 3 / 4
 
+    assert ltv.compute_lifetime_value("../test/model/four_users_02.csv") == 9.99*0.7
 #def test_compute_lifetime_value_when_four_users():
 #    assert ltv.compute_lifetime_value("../test/model/five_users.csv") == 10 * 0.7 * 9.
 

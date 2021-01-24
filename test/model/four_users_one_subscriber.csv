@@ -1,0 +1,8 @@
+Event Date,App Apple ID,Subscription Name,Standard Subscription Duration,Promotional Offer Name,Promotional Offer ID,Subscription Offer Type,Subscription Offer Duration,Marketing Opt-In Duration,Customer Currency,Proceeds Currency,Device,Country,Subscriber ID,Subscriber ID Reset,Refund,Purchase Date,Units
+2019-07-15,1,weekly 9.99 + 7D trial,7 Days,NULL,NULL,Free Trial,7 Days,NULL,TZS,TZS,iPhone,TZ,223411322456765457,NULL,NULL,NULL,1
+2019-07-17,1,weekly 9.99 + 7D trial,7 Days,,,Free Trial,7 Days,,USD,USD,iPhone,US,223411322456765650,,,,1
+2019-07-17,1,weekly 9.99 + 7D trial,7 Days,,,Free Trial,7 Days,,EUR,EUR,iPhone,LU,223411322456765651,,,,1
+2019-07-17,1,weekly 9.99 + 7D trial,7 Days,,,Free Trial,7 Days,,USD,USD,iPhone,KH,223411322456765652,,,,1
+2019-07-22,1,weekly 9.99 + 7D trial,7 Days,NULL,NULL,NULL,NULL,NULL,TZS,TZS,iPhone,TZ,223411322456765457,NULL,NULL,NULL,1
+2019-07-29,1,weekly 9.99 + 7D trial,7 Days,NULL,NULL,NULL,NULL,NULL,TZS,TZS,iPhone,TZ,223411322456765457,NULL,NULL,NULL,1
+2019-08-05,1,weekly 9.99 + 7D trial,7 Days,NULL,NULL,NULL,NULL,NULL,TZS,TZS,iPhone,TZ,223411322456765457,NULL,NULL,NULL,1

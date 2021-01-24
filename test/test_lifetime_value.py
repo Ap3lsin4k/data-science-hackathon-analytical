@@ -40,7 +40,6 @@ def test_stat_table_one_user():
 def test_compute_lifetime_value_when_four_users():
     assert ltv.compute_lifetime_value("../test/model/four_users_all_trial.csv") == 0
     assert ltv.compute_lifetime_value("../test/model/four_users_one_subscriber.csv") == 9.99*0.7 * 3 / 4
-
     assert ltv.compute_lifetime_value("../test/model/four_users_02.csv") == 9.99*0.7
 #def test_compute_lifetime_value_when_four_users():
 #    assert ltv.compute_lifetime_value("../test/model/five_users.csv") == 10 * 0.7 * 9.

@@ -36,8 +36,8 @@ class CustomerLifetimeValue:
         # # calculating LTV using the formula given in the task
         paid_weeks = 0
         for i in self.statTable['subscriptions']:
-            paid_weeks += (i-1)*dev_proceeds
-        return paid_weeks/len(self.statTable)
+            paid_weeks += (i-1)
+        return paid_weeks*dev_proceeds/len(self.statTable)
        # ltv = statTable['subscriptions']  # sum(values[1:])
       #  first_client = 0
       #  print("\nLTV = ", ltv[first_client])

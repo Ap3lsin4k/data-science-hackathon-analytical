@@ -1,31 +1,19 @@
 import pandas as pd
 import numpy as np
 
+
 class CustomerLifetimeValue:
-
-
-    def __init__(self):
-        pass
-
-    def compute_lifetime_value(self, param):
-        inp = pd.read_csv(param)
-        inp['Event Date'] = inp['Event Date'].astype('datetime64')
+    def __init__(self, data_analysis_path):
+        self.transactions = pd.read_csv(data_analysis_path)
+        self.transactions['Event Date'] = self.transactions['Event Date'].astype('datetime64')
         # grouping data by users: finding out amount of their subscriptions and registration dates
-        grouped = inp.groupby('Subscriber ID')
+        grouped = self.transactions.groupby('Subscriber ID')
         # aggregating transcations in a table with columns for ID, number of subscriptions for every customer, and registation date, making it easier to later calculate total amounts
-        aggregated = grouped.agg({'Event Date': ['count', 'min']})['Event Date'].rename(
+        self.aggregated = grouped.agg({'Event Date': ['count', 'min']})['Event Date'].rename(
             columns={"min": "registration", "count": "subscriptions"})
 
-        def count_how_much_users_having_specific_amount_of_subcriptions():
-            # statTable = aggregated.groupby('subscriptions').count().reset_index()
-            statTable = aggregated.groupby(by="subscriptions").count().reset_index()
-            statTable = statTable.sort_values('subscriptions', ascending=False)
-            return statTable
-
-        statTable = count_how_much_users_having_specific_amount_of_subcriptions()
-        # counting the statistics Table - what amount of users have at least a specific amount(x) of subscriptions
-        statTable['registration'] = np.cumsum(statTable['registration'])
-        statTable = statTable.sort_values('subscriptions')
+    def compute_lifetime_value(self):
+        statTable = self.help_compute_user_retention().sort_values('subscriptions')
         # calculating conversion rates
         Client_amounts = statTable[
             'registration']  # third column: amount of people who bought exactly x subscriptions(x from 0 to 5)
@@ -40,12 +28,7 @@ class CustomerLifetimeValue:
             values.append(values[-1] * convs[_])
         ltv = sum(values[1:])
         print("\nLTV = ", ltv)
-        return ltv#paid_weeks*dev_proceeds/len(self.statTable)
-       # ltv = statTable['subscriptions']  # sum(values[1:])
-      #  first_client = 0
-      #  print("\nLTV = ", ltv[first_client])
-      #  trial = 1
-       # return (ltv[first_client] - trial) * dev_proceeds  # 34.965
+        return ltv  # paid_weeks*dev_proceeds/len(self.statTable)
 
     def get_number_of_users(self, parm):
         print(self.aggregated.count())
@@ -56,4 +39,19 @@ class CustomerLifetimeValue:
         self.statTable = self.aggregated.groupby('subscriptions').count().reset_index()
         print(self.statTable)
         self.statTable = self.statTable.sort_values('subscriptions', ascending=False)
-        print(self.statTable['subscriptions'][0] -1)
+        print(self.statTable['subscriptions'][0] - 1)
+
+    def help_compute_user_retention(self):
+        def count_how_much_users_having_specific_amount_of_subcriptions():
+            # statTable = aggregated.groupby('subscriptions').count().reset_index()
+            statTable = self.aggregated.groupby(by="subscriptions").count().reset_index()
+            statTable = statTable.sort_values('subscriptions', ascending=False)
+            return statTable
+
+        statTable = count_how_much_users_having_specific_amount_of_subcriptions()
+        # counting the statistics Table - what amount of users have at least a specific amount(x) of subscriptions
+        statTable['registration'] = np.cumsum(statTable['registration'])
+        return statTable
+
+    def compute_retention(self):
+        return self.help_compute_user_retention()['subscriptions']#self.aggregated #[1, 0, 1, 1, 1, 1]

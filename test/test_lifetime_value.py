@@ -47,23 +47,23 @@ def test_compute_lifetime_value_when_four_users():
 #def test_compute_lifetime_value_when_four_users():
 #    assert ltv.compute_lifetime_value("../test/model/five_users.csv") == 10 * 0.7 * 9.
 
+@pytest.mark.skip("To be implemented by Valerii")
+def test_compute_relative_user_conversion_rate():
+    ltv = CustomerLifetimeValue("model/LTV=USD34.96.csv")
+    assert ltv.compute_relative_user_conversion_rate_or_raise_error([8, 4]) == [0.5]
+    assert ltv.compute_relative_user_conversion_rate_or_raise_error([8, 4, 3]) == [0.5, 0.75]
+    assert ltv.compute_relative_user_conversion_rate_or_raise_error([15, 13, 12, 11, 10, 3]) == [13 / 15, 12 / 13, 11 / 12, 10 / 11, 3 / 10]
+
+    with pytest.raises(ValueError):
+        ltv.compute_relative_user_conversion_rate_or_raise_error([4, 3])
+
+def test_functions_talk():
+    ltv = CustomerLifetimeValue("model/dummy.csv")
+    
+
 
 def test_integration_whole_system_total_ltv():
     ltv = CustomerLifetimeValue("../src/data_analytics.csv")
     assert 5 < ltv.compute_lifetime_value() < 40
     print(ltv.compute_lifetime_value())
     #assert ltv.compute_lifetime_value("../src/data_analytics.csv") == -1
-
-# def test_stat_table():
-#     ltv.compute_lifetime_value("../test/model/three_users.csv")
-#     print(":-", ltv.statTable)
-#     print("_", np.array(ltv.statTable['conversion'][:]), "len", len(np.array(ltv.statTable['conversion'][1:])))
-#     assert ltv.statTable == 0
-#
-# def test_stat_table():
-#     ltv.compute_lifetime_value("../test/model/two_users.csv")
-#     print(":-", ltv.statTable)
-#     print("_", np.array(ltv.statTable['conversion'][:]), "len", len(np.array(ltv.statTable['conversion'][1:])))
-#     assert ltv.statTable == 0
-#def test_ltv_when_number_of_users_is_two():
-#    assert ltv.compute_lifetime_value("../test/three_users") == pytest.approx(9*0.99*0.7, 0.004)

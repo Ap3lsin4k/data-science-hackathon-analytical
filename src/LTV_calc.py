@@ -79,3 +79,8 @@ class CustomerLifetimeValue:
 
             users.append(users_for_given_week[three_weeks])
         return users
+
+    def compute_relative_user_conversion_rate_or_raise_error(self, user_retentions):
+        if (all(user_retentions[i] <= user_retentions[i + 1] for i in range(len(user_retentions) - 1))):
+            raise ValueError("Number of users who paid at least ${A money} cannot be greater than number of users who paid ${A money} + ${B money} because one is subset of the other. str(broken_user_retentions): "+str(user_retentions))
+        return user_retentions[1]/user_retentions[0]

@@ -8,7 +8,7 @@ from categorizer import *
 
 def test_split_data_analytics_by_devices():
 
-    categorize_by_devices("../test/model/categorizer_by_devices.csv")
+    assert categorize_by_devices("../test/model/categorizer_by_devices.csv") == -1
 
    # os.isfile
    # sleep(1)

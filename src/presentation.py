@@ -17,7 +17,7 @@ def tell_story_about_total_lifetimevalue(ltv):
 
 def tell_story_about_lifetimevalue_comparing_devices(iphone, ipad):
     plt.bar([1, 2], [iphone, ipad], tick_label=['iPhone', 'iPad'])
-    plt.savefig('../OPENME/ltv-iphone-ipad.png')
+    plt.savefig('../OPENME/3) ltv-iphone-ipad.png')
     plt.show()
 
 
@@ -31,7 +31,7 @@ def tell_story_about_classical_retention_rate_as_line(retention):
     plt.xlabel('Weeks for install')
 
     plt.plot(x, retention)
-    plt.savefig('../OPENME/classical-retention-rate-as-line.png')
+    plt.savefig('../OPENME/2) classical-retention-rate-as-line.png')
     plt.show()
 
 
@@ -42,7 +42,7 @@ def tell_story_about_lifetimevalue_comparing_countries(ltv, countries):
     plt.ylabel('Money')
 
     plt.bar(coord, ltv, tick_label=countries)
-    plt.savefig('../OPENME/ltv-countries.png')
+    plt.savefig('../OPENME/3) ltv-countries.png')
     plt.show()
 
 

@@ -15,5 +15,6 @@ class GraphStory():
         presentation.tell_story_about_classical_retention_rate_as_line(response_model)
 
     def explore_lifetime_value_across_devices(self):
-        ltv_iPad = ""
-        self.entity.compute_lifetime_value()
+        iPad_ltv = CustomerLifetimeValue("iPad.csv")
+        iPhone_ltv = CustomerLifetimeValue("iPhone.csv")
+        presentation.tell_story_about_lifetimevalue_comparing_devices(iPhone_ltv.compute_lifetime_value(), iPad_ltv.compute_lifetime_value())

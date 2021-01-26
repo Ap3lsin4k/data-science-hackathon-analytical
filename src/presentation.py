@@ -31,7 +31,14 @@ def tell_story_about_lifetimevalue_comparing_countries(ltv, countries):
 
 
 def tell_story_about_single_lifetimevalue(ltv):
-    plt.bar([1, 2, 3], [0, ltv, 0], 1)
-    plt.text(1.9, ltv, str(ltv), fontsize=12)
+    from matplotlib.ticker import FormatStrFormatter
+
+    fig, ax = plt.subplots()
+    ax.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
+    ax.set_ylim(0, 10)
+    plt.bar([1, 2, 3], [0, ltv, 0], 1, tick_label=[''],color = 'red')
+    plt.text(1.8, ltv - 1, str(ltv), fontsize=20, color='white')
+    plt.title('Total LTV')
+
     plt.savefig('../OPENME/ltv.png')
     plt.show()

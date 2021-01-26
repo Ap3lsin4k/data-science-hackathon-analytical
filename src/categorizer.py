@@ -22,10 +22,13 @@ def categorize_by_devices(path):
 
 def categorize_by_countries():
     transactions = pandas.read_csv('../src/data_analytics.csv')
-    transactions['Country Date'] = transactions['Event Date'].astype('datetime64')
+    transactions['Country'] = transactions['Country'].astype('str')
     # grouping data by users: finding out amount of their subscriptions and registration dates
-    grouped = transactions.groupby('Subscriber ID')
+    grouped = transactions.groupby('Country')
     # aggregating transcations in a table with columns for ID, number of subscriptions for every customer, and registation date, making it easier to later calculate total amounts
-    aggregated = grouped.agg({'Event Date': ['count', 'max']})['Event Date'].rename(
+    aggregated = grouped.agg({'Country': ['count', 'max']})['Country'].rename(
         columns={"max": "registration", "count": "subscriptions"})
-
+    sorted_by_popularity = grouped.agg({'Country': ['count', 'max']})['Country'].sort_values('count', ascending=False)
+    population = sorted_by_popularity['count']
+    country = sorted_by_popularity['max']
+    return population, country

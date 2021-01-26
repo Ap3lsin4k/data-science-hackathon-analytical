@@ -28,3 +28,10 @@ def tell_story_about_lifetimevalue_comparing_countries(ltv, countries):
     plt.bar(coord, ltv, tick_label=countries)
     plt.savefig('../OPENME/ltv-countries.png')
     plt.show()
+
+
+def tell_story_about_single_lifetimevalue(ltv):
+    plt.bar([1, 2, 3], [0, ltv, 0], 1)
+    plt.text(1.9, ltv, str(ltv), fontsize=12)
+    plt.savefig('../OPENME/ltv.png')
+    plt.show()

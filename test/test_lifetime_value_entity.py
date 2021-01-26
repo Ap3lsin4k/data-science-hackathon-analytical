@@ -6,14 +6,14 @@ from ltv_entity import *
 def test_one_user():
     ltv = CustomerLifetimeValue("../test/model/LTV=USD34.96.csv")
     assert ltv.compute_conversion_rates_of_users_relative_to_previous_week([1, 1, 1, 1, 1])
-    assert ltv.compute_ltv_main() == pytest.approx(34.965, 0.004)
+    assert ltv.compute_lifetime_value() == pytest.approx(34.965, 0.004)
 
 
 
 def test_ltv_when_number_of_users_is_two():
     ltv = CustomerLifetimeValue("../test/model/two_users.csv")
     assert ltv.compute_conversion_rates_of_users_relative_to_previous_week([2, 2, 2, 2, 1, 1]) == [1, 1, 1, 0.5, 1]
-    assert ltv.compute_ltv_main() == pytest.approx(9.99 * 0.7 * 8 / 2, 0.004)
+    assert ltv.compute_lifetime_value() == pytest.approx(9.99 * 0.7 * 8 / 2, 0.004)
 
 
 def test_conversion_rate():
@@ -33,9 +33,9 @@ def test_ltv_for_three_users():
 
 def test_compute_lifetime_value_when_four_users():
     ltv = CustomerLifetimeValue("../test/model/four_users_all_trial.csv")
-    assert ltv.compute_ltv_main() == 0
+    assert ltv.compute_lifetime_value() == 0
     ltv = CustomerLifetimeValue("../test/model/four_users_one_subscriber.csv")
-    assert ltv.compute_ltv_main() == 9.99 * 0.7 * 3 / 4
+    assert ltv.compute_lifetime_value() == 9.99 * 0.7 * 3 / 4
 
 
 
@@ -62,5 +62,5 @@ def test_functions_talk():
 
 def test_integration_whole_system_total_ltv():
     ltv = CustomerLifetimeValue("../src/data_analytics.csv")
-    assert 5 < ltv.compute_ltv_main() < 40
-    assert ltv.compute_ltv_main() == pytest.approx(9.34, 0.001)
+    assert 5 < ltv.compute_lifetime_value() < 40
+    assert ltv.compute_lifetime_value() == pytest.approx(9.34, 0.001)

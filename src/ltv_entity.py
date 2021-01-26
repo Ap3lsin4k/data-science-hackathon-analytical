@@ -12,7 +12,7 @@ class CustomerLifetimeValue:
         self.aggregated = grouped.agg({'Event Date': ['count', 'max']})['Event Date'].rename(
             columns={"max": "registration", "count": "subscriptions"})
 
-    def compute_ltv_main(self):
+    def compute_lifetime_value(self):
         convs = self.compute_conversion_rates_of_users_relative_to_previous_week(
             self.compute_classical_retention())
         return self.compute_lifetime_value_using_conversions(convs)

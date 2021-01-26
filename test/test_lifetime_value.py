@@ -47,7 +47,7 @@ def test_compute_lifetime_value_when_four_users():
 #def test_compute_lifetime_value_when_four_users():
 #    assert ltv.compute_lifetime_value("../test/model/five_users.csv") == 10 * 0.7 * 9.
 
-@pytest.mark.skip("To be implemented by Valerii")
+#@pytest.mark.skip("To be implemented by Valerii")
 def test_compute_relative_user_conversion_rate():
     ltv = CustomerLifetimeValue("model/LTV=USD34.96.csv")
     assert ltv.compute_relative_user_conversion_rate_or_raise_error([8, 4]) == [0.5]
@@ -56,10 +56,16 @@ def test_compute_relative_user_conversion_rate():
 
     with pytest.raises(ValueError):
         ltv.compute_relative_user_conversion_rate_or_raise_error([4, 3])
-
+        
+@pytest.mark.skip("To be implemented by Valerii")
 def test_functions_talk():
     ltv = CustomerLifetimeValue("model/dummy.csv")
-    
+    at_least_subscription = (2, 4, 6)
+    num_of_trial_users = 5
+    user_retention = (num_of_trial_users, 3, 1)
+    #trial, week1, w2, w3,w4,w5
+    #  [5,   5,    3,  3, 1, 1]
+    assert ltv.compute_lifetime_value_using_numbers_of_user_retention(at_least_subscription, user_retention) == (5+3+3+1+1)*9.99*0.7 / num_of_trial_users
 
 
 def test_integration_whole_system_total_ltv():

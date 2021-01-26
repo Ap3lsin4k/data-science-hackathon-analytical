@@ -21,9 +21,8 @@ class CustomerLifetimeValue:
         Conversion_percents = [1.] + list(np.array(Client_amounts[1:]) / np.array(Client_amounts[:-1]))
         return Conversion_percents
 
-    def compute_lifetime_value(self):
-
-        convs = np.array(self.compute_conversion_percents()[1:])
+    def compute_ltv_from_conversions(self, conversion_rates_without_trial):
+        convs = conversion_rates_without_trial
         dev_proceeds = 9.99 * 0.7  # including deduction of subscription cost of 30% by Apple
         # calculating LTV using the formula given in the task
         values = [dev_proceeds]
@@ -33,25 +32,23 @@ class CustomerLifetimeValue:
         print("\nLTV = ", ltv)
         return ltv  # paid_weeks*dev_proceeds/len(self.statTable)
 
+    def compute_lifetime_value(self):
+        return self.compute_ltv_from_conversions(self.compute_conversion_percents()[1:])  # paid_weeks*dev_proceeds/len(self.statTable)
+
+
     def get_number_of_users(self, parm):
         print(self.aggregated.count())
         return len(self.aggregated)
 
     # As all users in dataset have complete lifetimes, we can count conversions using all records on each step
     def __count_how_much_users_having_specific_amount_of_subcriptions(self):
-        self.statTable = self.aggregated.groupby('subscriptions').count().reset_index()
-        print(self.statTable)
-        self.statTable = self.statTable.sort_values('subscriptions', ascending=False)
-        print(self.statTable['subscriptions'][0] - 1)
+        # statTable = aggregated.groupby('subscriptions').count().reset_index()
+        statTable = self.aggregated.groupby(by="subscriptions").count().reset_index()
+        statTable = statTable.sort_values('subscriptions', ascending=False)
+        return statTable
 
     def help_compute_user_retention(self):
-        def count_how_much_users_having_specific_amount_of_subcriptions():
-            # statTable = aggregated.groupby('subscriptions').count().reset_index()
-            statTable = self.aggregated.groupby(by="subscriptions").count().reset_index()
-            statTable = statTable.sort_values('subscriptions', ascending=False)
-            return statTable
-
-        statTable = count_how_much_users_having_specific_amount_of_subcriptions()
+        statTable = self.__count_how_much_users_having_specific_amount_of_subcriptions()
         # counting the statistics Table - what amount of users have at least a specific amount(x) of subscriptions
         statTable['registration'] = np.cumsum(statTable['registration'])
         return statTable.sort_values('subscriptions')
@@ -84,3 +81,6 @@ class CustomerLifetimeValue:
         if (all(user_retentions[i] <= user_retentions[i + 1] for i in range(len(user_retentions) - 1))):
             raise ValueError("Number of users who paid at least ${A money} cannot be greater than number of users who paid ${A money} + ${B money} because one is subset of the other. str(broken_user_retentions): "+str(user_retentions))
         return user_retentions[1]/user_retentions[0]
+
+    def compute_lifetime_value_using_numbers_of_user_retention(self, at_least_subscription, user_retention):
+        self.compute_relative_user_conversion_rate_or_raise_error(self.extract_active_users(at_least_subscription, user_retention))

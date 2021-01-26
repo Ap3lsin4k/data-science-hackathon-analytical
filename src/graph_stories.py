@@ -22,7 +22,7 @@ class GraphStory():
 
     def explore_popularity_of_the_app_across_countries(self):
         population, country = categorize_by_countries()
-        presentation.tell_story_about_popularity_of_app_comparing_countries(population[:10], country[:10])#([100,56,33],['US','USD','UKR']))
+        presentation.tell_story_about_popularity_of_app_comparing_countries(population[:20], country[:20])#([100,56,33],['US','USD','UKR']))
 
     def explore_lifetime_value_in_united_states(self):
         us_ltv = CustomerLifetimeValue("bycountries/US.csv")

@@ -25,10 +25,14 @@ def categorize_by_countries():
     transactions['Country'] = transactions['Country'].astype('str')
     # grouping data by users: finding out amount of their subscriptions and registration dates
     grouped = transactions.groupby('Country')
+
     # aggregating transcations in a table with columns for ID, number of subscriptions for every customer, and registation date, making it easier to later calculate total amounts
     aggregated = grouped.agg({'Country': ['count', 'max']})['Country'].rename(
         columns={"max": "registration", "count": "subscriptions"})
-    sorted_by_popularity = grouped.agg({'Country': ['count', 'max']})['Country'].sort_values('count', ascending=False)
-    population = sorted_by_popularity['count']
-    country = sorted_by_popularity['max']
+
+    sorted_by_popularity = (transactions.groupby('Country').nunique())['Subscriber ID'].sort_values(ascending=False)#grouped.agg({'Country': ['count', 'max']})['Country'].sort_values('count', ascending=False)
+
+    population = sorted_by_popularity.values
+    country = sorted_by_popularity.index
     return population, country
+

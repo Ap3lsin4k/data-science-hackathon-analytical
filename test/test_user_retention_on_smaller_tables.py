@@ -1,6 +1,6 @@
 import pytest
 
-from LTV_calc import CustomerLifetimeValue
+from ltv_entity import CustomerLifetimeValue
 
 def test_retention_for_one_user():
     ltv = CustomerLifetimeValue("model/LTV=USD34.96.csv")

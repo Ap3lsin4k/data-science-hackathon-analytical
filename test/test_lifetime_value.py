@@ -1,12 +1,13 @@
 import pytest
 
-from LTV_calc import *
+from ltv_entity import *
 
 
 def test_one_user():
     ltv = CustomerLifetimeValue("../test/model/LTV=USD34.96.csv")
     assert ltv.compute_relative_user_conversion_rate_or_raise_error([1, 1, 1, 1, 1])
     assert ltv.compute_ltv_main() == pytest.approx(34.965, 0.004)
+
 
 
 def test_ltv_when_number_of_users_is_two():
@@ -28,16 +29,6 @@ def test_ltv_for_three_users():
 
     assert ltv.compute_relative_user_conversion_rate_or_raise_error([3, 3, 3, 2, 1]) == [1, 1, pytest.approx(2 / 3, 0.0001), 0.5]
     assert ltv.compute_lifetime_value_using_conversions([1, 1, 2 / 3, 0.5]) == (9)*9.99*.7 / 3
-
-
-
-@pytest.mark.skip("Fix LTV computation in the code")
-def test_stat_table_one_user():
-    ltv = CustomerLifetimeValue("../test/model/LTV=USD34.96.csv")
-    ltv.compute_ltv_main()
-
-    print(":-", ltv.statTable)
-    assert ltv.statTable['subscriptions'][0] == 6
 
 
 def test_compute_lifetime_value_when_four_users():

@@ -17,6 +17,14 @@ class CustomerLifetimeValue:
             self.compute_retention())
         return self.compute_lifetime_value_using_conversions(convs)
 
+    def compute_lifetime_value_using_conversions(self, convs):
+        dev_proceeds = 9.99 * 0.7  # including deduction of subscription cost of 30% by Apple
+        # calculating LTV using the formula given in the task
+        values = [dev_proceeds]
+        for i in range(len(convs)):
+            values.append(values[-1] * convs[i])
+        return sum(values[1:])
+
     def compute_retention(self):
         user_retention = self.compute_user_retention()
         return self.extract_active_users(user_retention['subscriptions'], user_retention['registration'])#self.aggregated #[1, 0, 1, 1, 1, 1]
@@ -28,6 +36,7 @@ class CustomerLifetimeValue:
         statTable['registration'] = np.cumsum(statTable['registration'])
         return statTable.sort_values('subscriptions')
 
+    # active users - amount of users who bought exactly x subscriptions(x from 0 to 5), see unit tests for example
     def extract_active_users(self, using_period_in_weeks, users_for_given_week):
         users = []
         three_weeks = 0
@@ -43,25 +52,11 @@ class CustomerLifetimeValue:
         return users
 
     def compute_relative_user_conversion_rate_or_raise_error(self, user_retentions):
-        if len(user_retentions) == 1:
-            return []
-        if (any(user_retentions[i] < user_retentions[i + 1] for i in range(len(user_retentions) - 1))):
-            raise ValueError("Number of users who paid at least ${A money} cannot be greater than number of users who paid ${A money} + ${B money} because one is subset of the other. str(broken_user_retentions): "+str(user_retentions))
+        if any(user_retentions[i] < user_retentions[i + 1] for i in range(len(user_retentions) - 1)):
+            raise ValueError("Number of users who paid at least ${A money} cannot be greater than number of users who paid ${A money} + ${B money} because one is subset of the other. str(broken_user_retentions): "+str(user_retentions)+".")
 
         # conversion rate in the meaning of what percentage of those who bought x subscriptions also bought the (x+1) one.
         return list(np.array(user_retentions[1:])/np.array(user_retentions[:-1]))
-
-    # third column: amount of people who bought exactly x subscriptions(x from 0 to 5)
-    def compute_lifetime_value_using_conversions(self, convs):
-        dev_proceeds = 9.99 * 0.7  # including deduction of subscription cost of 30% by Apple
-        # calculating LTV using the formula given in the task
-        values = [dev_proceeds]
-        for i in range(len(convs)):
-            values.append(values[-1] * convs[i])
-        ltv = sum(values[1:])
-        return ltv
-
-
 
 
     def __count_how_much_users_having_specific_amount_of_subcriptions(self):

@@ -40,12 +40,12 @@ def test_stat_table_one_user():
     print(":-", ltv.statTable)
     assert ltv.statTable['subscriptions'][0] == 6
 
-@pytest.mark.skip("Fix LTV computation in the code")
 def test_compute_lifetime_value_when_four_users():
     ltv = CustomerLifetimeValue("../test/model/four_users_all_trial.csv")
     assert ltv.compute_ltv_main() == 0
+    ltv = CustomerLifetimeValue("../test/model/four_users_one_subscriber.csv")
     assert ltv.compute_ltv_main() == 9.99 * 0.7 * 3 / 4
-    assert ltv.compute_ltv_main() == 9.99 * 0.7
+
 #def test_compute_lifetime_value_when_four_users():
 #    assert ltv.compute_lifetime_value("../test/model/five_users.csv") == 10 * 0.7 * 9.
 

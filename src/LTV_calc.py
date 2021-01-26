@@ -9,18 +9,21 @@ class CustomerLifetimeValue:
         # grouping data by users: finding out amount of their subscriptions and registration dates
         grouped = self.transactions.groupby('Subscriber ID')
         # aggregating transcations in a table with columns for ID, number of subscriptions for every customer, and registation date, making it easier to later calculate total amounts
-        self.aggregated = grouped.agg({'Event Date': ['count', 'min']})['Event Date'].rename(
-            columns={"min": "registration", "count": "subscriptions"})
+        self.aggregated = grouped.agg({'Event Date': ['count', 'max']})['Event Date'].rename(
+            columns={"max": "registration", "count": "subscriptions"})
 
-    def compute_lifetime_value(self):
-        statTable = self.help_compute_user_retention().sort_values('subscriptions')
+    # conversion in the meaning of what percentage of those who bought x subscriptions also bought the (x+1) one
+    def compute_conversion_percents(self):
+        statTable = self.help_compute_user_retention()
         # calculating conversion rates
         Client_amounts = statTable[
             'registration']  # third column: amount of people who bought exactly x subscriptions(x from 0 to 5)
         Conversion_percents = [1.] + list(np.array(Client_amounts[1:]) / np.array(Client_amounts[:-1]))
-        # conversion in the meaning of what percentage of those who bought x subscriptions also bought the (x+1) one
-        statTable['conversion'] = Conversion_percents
-        convs = np.array(statTable['conversion'][1:])
+        return Conversion_percents
+
+    def compute_lifetime_value(self):
+
+        convs = np.array(self.compute_conversion_percents()[1:])
         dev_proceeds = 9.99 * 0.7  # including deduction of subscription cost of 30% by Apple
         # calculating LTV using the formula given in the task
         values = [dev_proceeds]
@@ -51,7 +54,28 @@ class CustomerLifetimeValue:
         statTable = count_how_much_users_having_specific_amount_of_subcriptions()
         # counting the statistics Table - what amount of users have at least a specific amount(x) of subscriptions
         statTable['registration'] = np.cumsum(statTable['registration'])
-        return statTable
+        return statTable.sort_values('subscriptions')
 
     def compute_retention(self):
-        return self.help_compute_user_retention()['subscriptions']#self.aggregated #[1, 0, 1, 1, 1, 1]
+        user_retention = self.help_compute_user_retention()
+        return self.extract_active_users(user_retention['subscriptions'], user_retention['registration'])#self.aggregated #[1, 0, 1, 1, 1, 1]
+
+    def compute_active_users_for_each_week(self):
+        self.transactions['Event Date'] = self.transactions['Event Date'].astype('datetime64')
+        # grouping data by users: finding out amount of their subscriptions and registration dates
+        grouped = self.transactions.groupby('Subscriber ID')
+        return self.aggregated
+
+    def extract_active_users(self, using_period_in_weeks, users_for_given_week):
+        users = []
+        three_weeks = 0
+
+        if len(using_period_in_weeks) != len(users_for_given_week):
+            raise ValueError
+
+        for i in range(1, using_period_in_weeks[len(using_period_in_weeks)-1] + 1):
+            if i > using_period_in_weeks[three_weeks]:
+                three_weeks += 1
+
+            users.append(users_for_given_week[three_weeks])
+        return users

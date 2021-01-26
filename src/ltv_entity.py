@@ -14,7 +14,7 @@ class CustomerLifetimeValue:
 
     def compute_ltv_main(self):
         convs = self.compute_conversion_rates_of_users_relative_to_previous_week(
-            self.compute_retention())
+            self.compute_classical_retention())
         return self.compute_lifetime_value_using_conversions(convs)
 
     def compute_lifetime_value_using_conversions(self, convs):
@@ -25,7 +25,7 @@ class CustomerLifetimeValue:
             values.append(values[-1] * convs[i])
         return sum(values[1:])
 
-    def compute_retention(self):
+    def compute_classical_retention(self):
         user_retention = self.compute_compressed_active_users()
         return self.extract_active_users(user_retention['subscriptions'], user_retention['registration'])#self.aggregated #[1, 0, 1, 1, 1, 1]
 

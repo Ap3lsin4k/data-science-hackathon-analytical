@@ -11,6 +11,8 @@ def tell_story_about_classical_retention_rate_as_line(retention):
     xticks = ['trial'] + ['sub ' + str(i) for i in range(1, len(retention))]
     x = [i for i in range(len(retention))]
 
+    plt.title('User Retention')
+
     plt.xticks(x, xticks)
     plt.xlabel('Weeks for install')
 

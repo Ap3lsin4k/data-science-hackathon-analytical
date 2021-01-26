@@ -18,14 +18,14 @@ def test_ltv_when_number_of_users_is_two():
 
 def test_conversion_rate():
     ltv = CustomerLifetimeValue("../test/model/LTV=USD34.96.csv")
-    assert ltv.compute_conversion_rates_of_users_relative_to_previous_week(ltv.compute_retention()) == [1.0, 1.0, 1.0, 1.0, 1.0]
+    assert ltv.compute_conversion_rates_of_users_relative_to_previous_week(ltv.compute_classical_retention()) == [1.0, 1.0, 1.0, 1.0, 1.0]
     ltv = CustomerLifetimeValue("../test/model/dummy.csv")
     assert ltv.compute_conversion_rates_of_users_relative_to_previous_week([3, 3, 2, 1, 1]) == [1.0, pytest.approx(2 / 3, 0.0001), 0.50, 1]
 
 
 def test_ltv_for_three_users():
     ltv = CustomerLifetimeValue("../test/model/three_users.csv")
-    assert ltv.compute_retention() == [3, 3, 3, 2, 1]
+    assert ltv.compute_classical_retention() == [3, 3, 3, 2, 1]
 
     assert ltv.compute_conversion_rates_of_users_relative_to_previous_week([3, 3, 3, 2, 1]) == [1, 1, pytest.approx(2 / 3, 0.0001), 0.5]
     assert ltv.compute_lifetime_value_using_conversions([1, 1, 2 / 3, 0.5]) == (9)*9.99*.7 / 3

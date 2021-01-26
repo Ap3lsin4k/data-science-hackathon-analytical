@@ -55,9 +55,9 @@ def test_compute_relative_user_conversion_rate():
     assert ltv.compute_relative_user_conversion_rate_or_raise_error([15, 13, 12, 11, 10, 3]) == [13 / 15, 12 / 13, 11 / 12, 10 / 11, 3 / 10]
 
     with pytest.raises(ValueError):
-        ltv.compute_relative_user_conversion_rate_or_raise_error([4, 3])
+        ltv.compute_relative_user_conversion_rate_or_raise_error([3,4])
         
-@pytest.mark.skip("To be implemented by Valerii")
+#@pytest.mark.skip("To be implemented by Valerii")
 def test_functions_talk():
     ltv = CustomerLifetimeValue("model/dummy.csv")
     at_least_subscription = (2, 4, 6)

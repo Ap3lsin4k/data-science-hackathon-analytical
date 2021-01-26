@@ -83,4 +83,4 @@ class CustomerLifetimeValue:
         return user_retentions[1]/user_retentions[0]
 
     def compute_lifetime_value_using_numbers_of_user_retention(self, at_least_subscription, user_retention):
-        self.compute_relative_user_conversion_rate_or_raise_error(self.extract_active_users(at_least_subscription, user_retention))
+        return self.compute_relative_user_conversion_rate_or_raise_error(self.extract_active_users(at_least_subscription, user_retention))

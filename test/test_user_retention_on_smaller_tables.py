@@ -19,17 +19,13 @@ def test_retention_for_two_users():
     assert res == [2, 2, 2, 2, 1, 1]
     assert len(res) == 6
 
-@pytest.mark.skip("It aggregates instead of giving the result")
-def test_conversion_percent():
     ltv = CustomerLifetimeValue("model/two_users.csv")
-    assert ltv.compute_conversion_percents() == [1, 1, 1, 0.5, 0.5]
+    assert ltv.compute_conversion_rates_of_users_relative_to_previous_week(ltv.compute_retention()) == [1, 1, 1, 0.5, 1]
 
 
-# TODO test for users with less than 5 subscriptions
-@pytest.mark.skip("TODO")
 def test_active_users_for_each_week_including_trial():
     ltv = CustomerLifetimeValue("model/two_users.csv")
-    res = ltv.compute_active_users_for_each_week()
+    res = ltv.compute_retention()
     assert res == [2, 2, 2, 2, 1, 1]
     assert len(res) == 6
     assert res[0] == 2

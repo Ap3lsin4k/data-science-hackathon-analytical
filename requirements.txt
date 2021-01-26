@@ -3,3 +3,4 @@ numpy~=1.19.5
 setuptools~=51.3.3
 matplotlib~=3.3.3
 pytest~=6.2.2
+scikit-learn~=0.24.1

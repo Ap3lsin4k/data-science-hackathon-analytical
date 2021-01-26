@@ -13,7 +13,7 @@ class CustomerLifetimeValue:
             columns={"max": "registration", "count": "subscriptions"})
 
     def compute_ltv_main(self):
-        convs = self.compute_relative_user_conversion_rate_or_raise_error(
+        convs = self.compute_conversion_rates_of_users_relative_to_previous_week(
             self.compute_retention())
         return self.compute_lifetime_value_using_conversions(convs)
 
@@ -26,11 +26,10 @@ class CustomerLifetimeValue:
         return sum(values[1:])
 
     def compute_retention(self):
-        user_retention = self.compute_user_retention()
+        user_retention = self.compute_compressed_active_users()
         return self.extract_active_users(user_retention['subscriptions'], user_retention['registration'])#self.aggregated #[1, 0, 1, 1, 1, 1]
 
-
-    def compute_user_retention(self):
+    def compute_compressed_active_users(self):
         statTable = self.__count_how_much_users_having_specific_amount_of_subcriptions()
         # counting the statistics Table - what amount of users have at least a specific amount(x) of subscriptions
         statTable['registration'] = np.cumsum(statTable['registration'])
@@ -51,7 +50,7 @@ class CustomerLifetimeValue:
             users.append(users_for_given_week[three_weeks])
         return users
 
-    def compute_relative_user_conversion_rate_or_raise_error(self, user_retentions):
+    def compute_conversion_rates_of_users_relative_to_previous_week(self, user_retentions):
         if any(user_retentions[i] < user_retentions[i + 1] for i in range(len(user_retentions) - 1)):
             raise ValueError("Number of users who paid at least ${A money} cannot be greater than number of users who paid ${A money} + ${B money} because one is subset of the other. str(broken_user_retentions): "+str(user_retentions)+".")
 

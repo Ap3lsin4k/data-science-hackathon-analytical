@@ -20,7 +20,12 @@ class GraphStory():
         iPhone_ltv = CustomerLifetimeValue("iPhone.csv")
         presentation.tell_story_about_lifetimevalue_comparing_devices(iPhone_ltv.compute_lifetime_value(), iPad_ltv.compute_lifetime_value())
 
-    def explore_lifetime_value_across_countries(self):
+    def explore_popularity_of_the_app_across_countries(self):
         population, country = categorize_by_countries()
+        presentation.tell_story_about_popularity_of_app_comparing_countries(population[:10], country[:10])#([100,56,33],['US','USD','UKR']))
 
-        presentation.tell_story_about_lifetimevalue_comparing_countries(population[:10], country[:10])#([100,56,33],['US','USD','UKR']))
+    def explore_lifetime_value_in_united_states(self):
+        us_ltv = CustomerLifetimeValue("bycountries/US.csv")
+        id_ltv = CustomerLifetimeValue("bycountries/ID.csv")
+        presentation.tell_story_about_lifetimevalue_comparing_countries(
+            [us_ltv.compute_lifetime_value(), id_ltv.compute_lifetime_value()], ['US', 'ID'])

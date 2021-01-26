@@ -8,7 +8,7 @@ from presentation import *
 
 @pytest.mark.skip("confusing with plots based on real data")
 def test_present_ltv_across_countries():
-    tell_story_about_lifetimevalue_comparing_countries([100,56,33],['USA','USD','UKR'])
+    tell_story_about_popularity_of_app_comparing_countries([100, 56, 33], ['USA', 'USD', 'UKR'])
     os.path.isfile('../OPENME/ltv-countries.png')
 
 @pytest.mark.skip("confusing with plots based on real data")

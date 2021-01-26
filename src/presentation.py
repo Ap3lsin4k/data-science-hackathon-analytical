@@ -37,10 +37,9 @@ def tell_story_about_classical_retention_rate_as_line(retention):
     plt.show()
 
 
-def tell_story_about_lifetimevalue_comparing_countries(ltv, countries):
+def tell_story_about_popularity_of_app_comparing_countries(ltv, countries):
     coord = [i for i in range(1, len(countries) + 1)]
 
-#    plt.title('Lifetime Value by Countries')
     plt.ylabel('# of users')
     plt.xlabel('Country')
 
@@ -49,5 +48,23 @@ def tell_story_about_lifetimevalue_comparing_countries(ltv, countries):
     plt.savefig('../OPENME/4) users by countries.png')
     plt.show()
 
+def tell_story_about_lifetimevalue_comparing_countries(ltv, countries):
+    coord = [i for i in range(1, len(countries) + 1)]
+    from matplotlib.ticker import FormatStrFormatter
+
+    fig, ax = plt.subplots()
+    ax.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
+    ax.set_ylim(0, 10)
+#    plt.bar([1, 2, 3], [0, ltv, 0], 1, tick_label=[''],color = 'red')
+#    plt.text(1.8, ltv - 1, str(ltv), fontsize=20, color='white')
+    plt.title('Total LTV')
+
+    plt.title('Lifetime Value by Countries')
+    plt.xlabel('Country')
+
+
+    plt.bar(coord, ltv, tick_label=countries)
+    plt.savefig('../OPENME/5) ltv by top countries.png')
+    plt.show()
 
 

@@ -80,7 +80,18 @@ class CustomerLifetimeValue:
     def compute_relative_user_conversion_rate_or_raise_error(self, user_retentions):
         if (all(user_retentions[i] <= user_retentions[i + 1] for i in range(len(user_retentions) - 1))):
             raise ValueError("Number of users who paid at least ${A money} cannot be greater than number of users who paid ${A money} + ${B money} because one is subset of the other. str(broken_user_retentions): "+str(user_retentions))
-        return user_retentions[1]/user_retentions[0]
+        return list(np.array(user_retentions[1:])/np.array(user_retentions[:-1]))
 
     def compute_lifetime_value_using_numbers_of_user_retention(self, at_least_subscription, user_retention):
+<<<<<<< HEAD
         return self.compute_relative_user_conversion_rate_or_raise_error(self.extract_active_users(at_least_subscription, user_retention))
+=======
+        convs = self.compute_relative_user_conversion_rate_or_raise_error(self.extract_active_users(at_least_subscription, user_retention))
+        dev_proceeds = 9.99 * 0.7  # including deduction of subscription cost of 30% by Apple
+        # calculating LTV using the formula given in the task
+        values = [dev_proceeds]
+        for _ in range(len(convs)):
+            values.append(values[-1] * convs[_])
+        ltv = sum(values[1:])
+        return ltv
+>>>>>>> be7f2b8757f9623fa2d3c4f6e75e9772f4633b15

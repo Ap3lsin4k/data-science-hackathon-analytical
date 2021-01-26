@@ -57,7 +57,7 @@ def test_compute_relative_user_conversion_rate():
     with pytest.raises(ValueError):
         ltv.compute_relative_user_conversion_rate_or_raise_error([3,4])
 
-@pytest.mark.skip("To be implemented by Valerii")
+
 def test_functions_talk():
     ltv = CustomerLifetimeValue("model/dummy.csv")
     at_least_subscription = (2, 4, 6)

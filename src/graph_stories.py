@@ -18,3 +18,8 @@ class GraphStory():
         iPad_ltv = CustomerLifetimeValue("iPad.csv")
         iPhone_ltv = CustomerLifetimeValue("iPhone.csv")
         presentation.tell_story_about_lifetimevalue_comparing_devices(iPhone_ltv.compute_lifetime_value(), iPad_ltv.compute_lifetime_value())
+
+    def explore_lifetime_value_across_countries(self):
+        iPad_ltv = CustomerLifetimeValue("iPad.csv")
+        iPhone_ltv = CustomerLifetimeValue("iPhone.csv")
+        presentation.tell_story_about_lifetimevalue_comparing_countries(([100,56,33],['US','USD','UKR']))
